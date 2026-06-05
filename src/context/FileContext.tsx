@@ -23,29 +23,42 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
   const [files, setFiles] = useState<DriveFile[]>(INITIAL_FILES);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortField>('name');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   
-  // NUEVO: Estado para saber qué archivo está pendiente de borrarse
+  // ¡AQUÍ ESTÁ EL TRUCO DE UX! Arrancamos por fecha y de más nuevo a más viejo
+  const [sortBy, setSortBy] = useState<SortField>('date');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  
   const [fileToDelete, setFileToDelete] = useState<string | null>(null);
 
-  // NUEVO: Ahora deleteFile solo pausa la acción y abre el modal
-  const deleteFile = (id: string) => {
-    setFileToDelete(id);
-  };
+  // Lógica maestra de ordenación
+  const sortedFiles = [...files].sort((a, b) => {
+    let comparison = 0;
+    
+    if (sortBy === 'name') {
+      // Ordenar alfabéticamente (ignorando mayúsculas/minúsculas)
+      comparison = a.name.localeCompare(b.name);
+    } else if (sortBy === 'date') {
+      // Ordenar por fecha cronológica
+      comparison = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    } else if (sortBy === 'size') {
+      // Ordenar por peso del archivo
+      comparison = a.size - b.size;
+    }
 
-  // NUEVO: Esta es la función que realmente borra el archivo
+    // Invertir el resultado si el usuario ha seleccionado orden descendente
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
+
+  const deleteFile = (id: string) => setFileToDelete(id);
+
   const confirmDelete = () => {
     if (fileToDelete) {
       setFiles(prevFiles => prevFiles.filter(file => file.id !== fileToDelete));
-      setFileToDelete(null); // Cierra el modal
+      setFileToDelete(null);
     }
   };
 
-  // NUEVO: Función para cancelar
-  const cancelDelete = () => {
-    setFileToDelete(null); // Cierra el modal sin hacer nada
-  };
+  const cancelDelete = () => setFileToDelete(null);
 
   const uploadFile = (newFileData: Omit<DriveFile, 'id' | 'createdAt'>) => {
     const newFile: DriveFile = {
@@ -58,13 +71,13 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <FileContext.Provider value={{
-      files, viewMode, searchQuery, sortBy, sortOrder,
+      files: sortedFiles,
+      viewMode, searchQuery, sortBy, sortOrder,
       setViewMode, setSearchQuery, setSortBy, setSortOrder,
       deleteFile, uploadFile
     }}>
       {children}
       
-      {/* Inyectamos el modal a nivel global */}
       <ConfirmModal 
         isOpen={fileToDelete !== null}
         title="Eliminar archivo"
