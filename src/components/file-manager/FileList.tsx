@@ -3,7 +3,7 @@ import { useFiles } from '../../context/FileContext';
 import { formatFileSize, formatFileDate } from '../../utils/fileHelpers';
 
 export const FileList = () => {
-  const { files, searchQuery, deleteFile } = useFiles();
+  const { files, searchQuery, deleteFile, previewFile } = useFiles();
 
   // Reutilizamos la misma lógica de filtrado que en el Grid
   const filteredFiles = files.filter(file => 
@@ -54,7 +54,11 @@ export const FileList = () => {
         </thead>
         <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
           {filteredFiles.map((file) => (
-            <tr key={file.id} className="group hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+            <tr 
+              key={file.id} 
+              onClick={() => previewFile(file)}
+              className="group hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
+            >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 mr-3">
@@ -73,7 +77,10 @@ export const FileList = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <button
-                  onClick={() => deleteFile(file.id)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Evita que al hacer clic en borrar se abra la imagen
+                    deleteFile(file.id);
+                  }}
                   className="p-1.5 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                   title="Eliminar archivo"
                 >

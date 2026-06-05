@@ -5,6 +5,7 @@ import { FileProvider, useFiles } from './context/FileContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { FileGrid } from './components/file-manager/FileGrid';
 import { FileList } from './components/file-manager/FileList';
+import { SortControl } from './components/file-manager/SortControl';
 import type { FileType } from './types/file.types';
 
 const DriveContent = () => {
@@ -73,7 +74,6 @@ const DriveContent = () => {
       
       {isDragging && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-blue-50/90 dark:bg-blue-900/90 border-4 border-dashed border-blue-500 rounded-2xl backdrop-blur-sm animate-in fade-in duration-200">
-          {/* NUEVO: pointer-events-none en el contenido interno */}
           <div className="pointer-events-none flex flex-col items-center">
             <UploadCloud className="w-16 h-16 text-blue-600 dark:text-blue-400 mb-4 animate-bounce" />
             <h2 className="text-2xl font-bold text-blue-800 dark:text-blue-200">Suelta tus archivos aquí</h2>
@@ -82,32 +82,39 @@ const DriveContent = () => {
         </div>
       )}
 
-      <div className="mb-6 flex items-center justify-between relative z-10 pointer-events-auto">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10 pointer-events-auto">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Mi Drive</h1>
         
-        <div className="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-1">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-md transition-colors ${
-              viewMode === 'grid' 
-                ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' 
-                : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-            }`}
-            title="Vista de cuadrícula"
-          >
-            <LayoutGrid className="w-5 h-5" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`p-1.5 rounded-md transition-colors ${
-              viewMode === 'list' 
-                ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' 
-                : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-            }`}
-            title="Vista de lista"
-          >
-            <List className="w-5 h-5" />
-          </button>
+        {/* Controles: Ordenación y Vista */}
+        <div className="flex items-center space-x-3">
+          
+          <SortControl /> 
+
+          {/* Botones de Vista */}
+          <div className="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-1 h-10">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-1.5 rounded-md transition-colors ${
+                viewMode === 'grid' 
+                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              }`}
+              title="Vista de cuadrícula"
+            >
+              <LayoutGrid className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-1.5 rounded-md transition-colors ${
+                viewMode === 'list' 
+                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              }`}
+              title="Vista de lista"
+            >
+              <List className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
 

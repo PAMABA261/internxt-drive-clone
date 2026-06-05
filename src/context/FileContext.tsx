@@ -2,6 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { DriveFile, ViewMode, SortField, SortOrder } from '../types/file.types';
 import { INITIAL_FILES } from '../utils/mockData';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
+import { PreviewModal } from '../components/ui/PreviewModal';
 
 interface FileContextType {
   files: DriveFile[];
@@ -14,6 +15,7 @@ interface FileContextType {
   setSortBy: (field: SortField) => void;
   setSortOrder: (order: SortOrder) => void;
   deleteFile: (id: string) => void;
+  previewFile: (file: DriveFile) => void;
   uploadFile: (file: Omit<DriveFile, 'id' | 'createdAt'>) => void;
 }
 
@@ -29,6 +31,9 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   
   const [fileToDelete, setFileToDelete] = useState<string | null>(null);
+
+  const [fileToPreview, setFileToPreview] = useState<DriveFile | null>(null);
+  const previewFile = (file: DriveFile) => setFileToPreview(file);
 
   // Lógica maestra de ordenación
   const sortedFiles = [...files].sort((a, b) => {
@@ -74,17 +79,23 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
       files: sortedFiles,
       viewMode, searchQuery, sortBy, sortOrder,
       setViewMode, setSearchQuery, setSortBy, setSortOrder,
-      deleteFile, uploadFile
+      deleteFile, previewFile, uploadFile 
     }}>
       {children}
-      
+
       <ConfirmModal 
         isOpen={fileToDelete !== null}
         title="Eliminar archivo"
-        message="¿Estás seguro de que quieres eliminar este archivo? Esta acción no se puede deshacer y se perderá de forma permanente."
+        message="¿Estás seguro de que quieres eliminar este archivo? Esta acción no se puede deshacer."
         onConfirm={confirmDelete}
         onCancel={cancelDelete}
       />
+
+      <PreviewModal 
+        file={fileToPreview} 
+        onClose={() => setFileToPreview(null)} 
+      />
+
     </FileContext.Provider>
   );
 };

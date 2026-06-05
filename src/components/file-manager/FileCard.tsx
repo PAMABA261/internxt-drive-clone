@@ -8,8 +8,8 @@ interface FileCardProps {
 }
 
 export const FileCard = ({ file }: FileCardProps) => {
-  // Nos traemos la función de borrar desde nuestro contexto global
-  const { deleteFile } = useFiles();
+  // Nos traemos también la función de previewFile desde nuestro contexto global
+  const { deleteFile, previewFile } = useFiles();
 
   // Esta función devuelve un icono distinto y con colores diferentes según el tipo de archivo
   const getFileIcon = (type: string) => {
@@ -26,7 +26,10 @@ export const FileCard = ({ file }: FileCardProps) => {
   };
 
   return (
-    <div className="group relative flex flex-col p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:shadow-md hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-200">
+    <div 
+      onClick={() => previewFile(file)}
+      className="group relative flex flex-col p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:shadow-md hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-200 cursor-pointer"
+    >
       
       {/* Parte superior: Icono y botón de borrar */}
       <div className="flex justify-between items-start mb-4">
@@ -36,7 +39,10 @@ export const FileCard = ({ file }: FileCardProps) => {
         
         {/* El botón de borrar está oculto por defecto y aparece al pasar el ratón (group-hover) */}
         <button
-          onClick={() => deleteFile(file.id)}
+          onClick={(e) => {
+            e.stopPropagation(); // Evita que al hacer clic en borrar se abra la imagen
+            deleteFile(file.id);
+          }}
           className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md opacity-0 group-hover:opacity-100 transition-all focus:opacity-100"
           title="Eliminar archivo"
         >
