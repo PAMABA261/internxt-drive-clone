@@ -1,6 +1,7 @@
 import { LayoutGrid, List } from 'lucide-react';
 import { DashboardLayout } from './components/layout/DashboardLayout';
 import { FileProvider, useFiles } from './context/FileContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { FileGrid } from './components/file-manager/FileGrid';
 import { FileList } from './components/file-manager/FileList';
 
@@ -52,11 +53,13 @@ const DriveContent = () => {
 
 function App() {
   return (
-    <FileProvider>
-      <DashboardLayout>
-        <DriveContent />
-      </DashboardLayout>
-    </FileProvider>
+    <ThemeProvider> 
+      <FileProvider>
+        <DashboardLayout>
+          <DriveContent />
+        </DashboardLayout>
+      </FileProvider>
+    </ThemeProvider> 
   );
 }
 

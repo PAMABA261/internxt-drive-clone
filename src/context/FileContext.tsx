@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { DriveFile, ViewMode, SortField, SortOrder } from '../types/file.types';
 import { INITIAL_FILES } from '../utils/mockData';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 
-// 1. Definimos qué datos e instrucciones va a guardar nuestro estado global
 interface FileContextType {
   files: DriveFile[];
   viewMode: ViewMode;
@@ -17,24 +17,36 @@ interface FileContextType {
   uploadFile: (file: Omit<DriveFile, 'id' | 'createdAt'>) => void;
 }
 
-// 2. Creamos el contexto vacío
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
-// 3. Creamos el Proveedor (El componente que abrazará a nuestra app y le dará los datos)
 export const FileProvider = ({ children }: { children: ReactNode }) => {
-  // Cargamos nuestros archivos de mentira al principio
   const [files, setFiles] = useState<DriveFile[]>(INITIAL_FILES);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortField>('name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+  
+  // NUEVO: Estado para saber qué archivo está pendiente de borrarse
+  const [fileToDelete, setFileToDelete] = useState<string | null>(null);
 
-  // Función para borrar (filtra el array quitando el id que le pasamos)
+  // NUEVO: Ahora deleteFile solo pausa la acción y abre el modal
   const deleteFile = (id: string) => {
-    setFiles(prevFiles => prevFiles.filter(file => file.id !== id));
+    setFileToDelete(id);
   };
 
-  // Función para simular la subida (crea un ID y fecha falsos y lo mete el primero)
+  // NUEVO: Esta es la función que realmente borra el archivo
+  const confirmDelete = () => {
+    if (fileToDelete) {
+      setFiles(prevFiles => prevFiles.filter(file => file.id !== fileToDelete));
+      setFileToDelete(null); // Cierra el modal
+    }
+  };
+
+  // NUEVO: Función para cancelar
+  const cancelDelete = () => {
+    setFileToDelete(null); // Cierra el modal sin hacer nada
+  };
+
   const uploadFile = (newFileData: Omit<DriveFile, 'id' | 'createdAt'>) => {
     const newFile: DriveFile = {
       ...newFileData,
@@ -51,11 +63,19 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
       deleteFile, uploadFile
     }}>
       {children}
+      
+      {/* Inyectamos el modal a nivel global */}
+      <ConfirmModal 
+        isOpen={fileToDelete !== null}
+        title="Eliminar archivo"
+        message="¿Estás seguro de que quieres eliminar este archivo? Esta acción no se puede deshacer y se perderá de forma permanente."
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </FileContext.Provider>
   );
 };
 
-// 4. Creamos un Hook personalizado para usar estos datos fácilmente en cualquier parte
 export const useFiles = () => {
   const context = useContext(FileContext);
   if (context === undefined) {

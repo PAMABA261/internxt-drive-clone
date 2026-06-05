@@ -1,7 +1,9 @@
-import { Menu, Search, Upload, User, Moon } from 'lucide-react';
+import { Menu, Search, Upload, User, Moon, Sun } from 'lucide-react';
 import { useRef } from 'react';
 import { useFiles } from '../../context/FileContext';
+import { useTheme } from '../../context/ThemeContext';
 import type { FileType } from '../../types/file.types';
+
 
 interface NavbarProps {
   toggleSidebar: () => void;
@@ -10,6 +12,7 @@ interface NavbarProps {
 export const Navbar = ({ toggleSidebar }: NavbarProps) => {
   // Nos traemos las funciones de nuestro contexto
   const { searchQuery, setSearchQuery, uploadFile } = useFiles();
+  const { theme, toggleTheme } = useTheme();
   
   // Referencia invisible para el input de archivo
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -83,8 +86,12 @@ export const Navbar = ({ toggleSidebar }: NavbarProps) => {
           Subir archivo
         </button>
         
-        <button className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800">
-          <Moon className="w-5 h-5" />
+        <button 
+          onClick={toggleTheme}
+          className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"
+          title={`Cambiar a modo ${theme === 'light' ? 'oscuro' : 'claro'}`}
+        >
+          {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
         </button>
         
         <button className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
