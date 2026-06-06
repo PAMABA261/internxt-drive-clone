@@ -7,9 +7,13 @@ export const FileList = () => {
   const { files, searchQuery, deleteFile, previewFile } = useFiles();
   const [visibleCount, setVisibleCount] = useState(12);
 
-  const filteredFiles = files.filter(file => 
-    file.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Normaliza la búsqueda para ignorar tildes y caracteres diacríticos
+  const normalizedQuery = searchQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  const filteredFiles = files.filter(file => {
+    const normalizedFileName = file.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    return normalizedFileName.includes(normalizedQuery);
+  });
 
   const displayedFiles = filteredFiles.slice(0, visibleCount);
   const hasMore = visibleCount < filteredFiles.length;
@@ -81,6 +85,7 @@ export const FileList = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button
                     onClick={(e) => {
+                      // Previene la propagación del evento hacia la fila para evitar abrir la vista previa
                       e.stopPropagation();
                       deleteFile(file.id);
                     }}
@@ -96,7 +101,6 @@ export const FileList = () => {
         </table>
       </div>
 
-      {/* Botón Cargar Más */}
       {hasMore && (
         <div className="mt-8 flex justify-center">
           <button

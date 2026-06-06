@@ -8,10 +8,8 @@ interface FileCardProps {
 }
 
 export const FileCard = ({ file }: FileCardProps) => {
-  // Nos traemos también la función de previewFile desde nuestro contexto global
   const { deleteFile, previewFile } = useFiles();
 
-  // Esta función devuelve un icono distinto y con colores diferentes según el tipo de archivo
   const getFileIcon = (type: string) => {
     switch (type) {
       case 'image': return <ImageIcon className="w-8 h-8 text-blue-500" />;
@@ -30,17 +28,15 @@ export const FileCard = ({ file }: FileCardProps) => {
       onClick={() => previewFile(file)}
       className="group relative flex flex-col p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:shadow-md hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-200 cursor-pointer"
     >
-      
-      {/* Parte superior: Icono y botón de borrar */}
       <div className="flex justify-between items-start mb-4">
         <div className="p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
           {getFileIcon(file.type)}
         </div>
         
-        {/* El botón de borrar está oculto por defecto y aparece al pasar el ratón (group-hover) */}
         <button
           onClick={(e) => {
-            e.stopPropagation(); // Evita que al hacer clic en borrar se abra la imagen
+            // Previene la propagación del evento hacia el contenedor padre para evitar abrir la vista previa
+            e.stopPropagation();
             deleteFile(file.id);
           }}
           className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md opacity-0 group-hover:opacity-100 transition-all focus:opacity-100"
@@ -50,7 +46,6 @@ export const FileCard = ({ file }: FileCardProps) => {
         </button>
       </div>
       
-      {/* Parte inferior: Nombre y metadatos */}
       <div className="mt-auto">
         <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate mb-1" title={file.name}>
           {file.name}
@@ -60,7 +55,6 @@ export const FileCard = ({ file }: FileCardProps) => {
           <span>{formatFileSize(file.size)}</span>
         </div>
       </div>
-
     </div>
   );
 };

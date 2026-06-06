@@ -4,15 +4,16 @@ import { FileCard } from './FileCard';
 
 export const FileGrid = () => {
   const { files, searchQuery } = useFiles();
-  
-  // NUEVO: Estado para saber cuántos archivos mostramos (empezamos con 12)
   const [visibleCount, setVisibleCount] = useState(12);
 
-  const filteredFiles = files.filter(file => 
-    file.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Normaliza la búsqueda para ignorar tildes y caracteres diacríticos
+  const normalizedQuery = searchQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-  // NUEVO: Cortamos la lista de archivos para mostrar solo los visibles
+  const filteredFiles = files.filter(file => {
+    const normalizedFileName = file.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    return normalizedFileName.includes(normalizedQuery);
+  });
+
   const displayedFiles = filteredFiles.slice(0, visibleCount);
   const hasMore = visibleCount < filteredFiles.length;
 
@@ -40,7 +41,6 @@ export const FileGrid = () => {
         ))}
       </div>
       
-      {/* NUEVO: Botón Cargar Más */}
       {hasMore && (
         <div className="mt-8 flex justify-center">
           <button

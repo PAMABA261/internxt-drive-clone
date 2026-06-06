@@ -182,5 +182,12 @@ export const INITIAL_FILES: DriveFile[] = [
     type: 'image',
     size: 1024 * 1024 * 3.8, // 3.8 MB
     createdAt: '2026-06-02T16:10:00Z',
+  },
+  {
+    id: '27',
+    name: 'Código_Fuente.zip',
+    type: 'other',
+    size: 1024 * 1024 * 15, // 15 MB
+    createdAt: '2025-06-02T16:10:00Z',
   }
 ];

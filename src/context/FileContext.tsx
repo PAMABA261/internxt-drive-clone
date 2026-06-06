@@ -25,32 +25,25 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
   const [files, setFiles] = useState<DriveFile[]>(INITIAL_FILES);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // ¡AQUÍ ESTÁ EL TRUCO DE UX! Arrancamos por fecha y de más nuevo a más viejo
   const [sortBy, setSortBy] = useState<SortField>('date');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   
   const [fileToDelete, setFileToDelete] = useState<string | null>(null);
-
   const [fileToPreview, setFileToPreview] = useState<DriveFile | null>(null);
+
   const previewFile = (file: DriveFile) => setFileToPreview(file);
 
-  // Lógica maestra de ordenación
   const sortedFiles = [...files].sort((a, b) => {
     let comparison = 0;
     
     if (sortBy === 'name') {
-      // Ordenar alfabéticamente (ignorando mayúsculas/minúsculas)
       comparison = a.name.localeCompare(b.name);
     } else if (sortBy === 'date') {
-      // Ordenar por fecha cronológica
       comparison = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
     } else if (sortBy === 'size') {
-      // Ordenar por peso del archivo
       comparison = a.size - b.size;
     }
 
-    // Invertir el resultado si el usuario ha seleccionado orden descendente
     return sortOrder === 'asc' ? comparison : -comparison;
   });
 
