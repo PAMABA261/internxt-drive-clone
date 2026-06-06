@@ -45,7 +45,7 @@ export const PreviewModal = ({ file, onClose }: PreviewModalProps) => {
           {hasPrevious && (
             <button 
               onClick={handlePrevious}
-              className="absolute left-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10"
+              className="absolute left-2 sm:left-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 z-10"
               title="Archivo anterior"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -59,7 +59,7 @@ export const PreviewModal = ({ file, onClose }: PreviewModalProps) => {
               className="max-w-full max-h-[60vh] object-contain rounded-lg shadow-sm animate-in fade-in duration-300"
             />
           ) : (
-            <div className="text-center text-gray-500 dark:text-gray-400">
+            <div className="text-center text-gray-500 dark:text-gray-400 px-12">
               <p>La vista previa solo está disponible para imágenes en esta demo.</p>
             </div>
           )}
@@ -67,7 +67,7 @@ export const PreviewModal = ({ file, onClose }: PreviewModalProps) => {
           {hasNext && (
             <button 
               onClick={handleNext}
-              className="absolute right-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10"
+              className="absolute right-2 sm:right-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 z-10"
               title="Siguiente archivo"
             >
               <ChevronRight className="w-6 h-6" />
