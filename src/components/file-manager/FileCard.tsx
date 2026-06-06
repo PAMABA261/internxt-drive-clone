@@ -39,7 +39,7 @@ export const FileCard = ({ file }: FileCardProps) => {
             e.stopPropagation();
             deleteFile(file.id);
           }}
-          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md opacity-0 group-hover:opacity-100 transition-all focus:opacity-100"
+          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all focus:opacity-100"
           title="Eliminar archivo"
         >
           <Trash2 className="w-4 h-4" />
