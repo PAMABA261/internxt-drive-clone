@@ -12,29 +12,28 @@ const DriveContent = () => {
   const { viewMode, setViewMode, uploadFile } = useFiles();
   const [isDragging, setIsDragging] = useState(false);
   
-  // NUEVO: El contador inteligente para evitar el parpadeo
+  // Usamos un contador en lugar de un booleano para evitar que el overlay 
+  // parpadee (flickering) cuando el usuario arrastra archivos sobre elementos hijos
   const dragCounter = useRef(0);
 
-  // NUEVO: Manejador de entrada
   const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     dragCounter.current += 1;
-    // Solo activamos la pantalla si lo que arrastran son archivos reales
+    
+    // Solo activamos la zona de drop si lo que se arrastra son archivos (evita reaccionar a texto o enlaces)
     if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
       setIsDragging(true);
     }
   };
 
-  // ACTUALIZADO: Solo prevenimos el comportamiento por defecto
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault(); 
   };
 
-  // ACTUALIZADO: Manejador de salida usando el contador
   const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     dragCounter.current -= 1;
-    // Solo ocultamos la pantalla si hemos salido completamente de todo
+    
     if (dragCounter.current === 0) {
       setIsDragging(false);
     }
@@ -42,7 +41,7 @@ const DriveContent = () => {
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    dragCounter.current = 0; // Reiniciamos el contador por seguridad
+    dragCounter.current = 0;
     setIsDragging(false); 
 
     const droppedFiles = Array.from(e.dataTransfer.files);
@@ -85,12 +84,9 @@ const DriveContent = () => {
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10 pointer-events-auto">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Mi Drive</h1>
         
-        {/* Controles: Ordenación y Vista */}
         <div className="flex items-center space-x-3">
-          
           <SortControl /> 
 
-          {/* Botones de Vista */}
           <div className="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-1 h-10">
             <button
               onClick={() => setViewMode('grid')}

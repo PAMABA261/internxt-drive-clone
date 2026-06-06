@@ -25,12 +25,11 @@ describe('Funciones de utilidad: fileHelpers', () => {
 
   describe('formatFileDate', () => {
     it('debería formatear una fecha ISO a un formato legible', () => {
-      // Creamos una fecha fija para que el test no falle dependiendo del día
       const testDate = '2026-05-15T08:20:00Z';
       const formatted = formatFileDate(testDate);
       
-      // Comprobamos que el resultado contiene parte del string esperado
-      // (Usamos include porque el formato exacto puede variar según la zona horaria del sistema)
+      // Verificamos tipo y longitud en lugar de un string exacto para 
+      // evitar falsos negativos debidos a la zona horaria del sistema donde se ejecute el test
       expect(typeof formatted).toBe('string');
       expect(formatted.length).toBeGreaterThan(0);
     });
