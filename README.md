@@ -1,8 +1,8 @@
-# Internxt Drive Clone
+# Internxt Drive Test
 
-Simulación de un gestor de archivos en la nube construido como prueba técnica frontend para Internxt. Toda la lógica es client-side: sin backend, sin base de datos.
+Simulación de un gestor de archivos en la nube construida como prueba técnica para Internxt. Todo funciona en el navegador, sin servidor ni base de datos.
 
-🔗 **[Demo en vivo](#)** <!-- Sustituye con tu URL de Vercel/Netlify -->
+🔗 **[Demo en vivo](https://internxt-drive-test.vercel.app/)**
 
 ---
 
@@ -10,10 +10,10 @@ Simulación de un gestor de archivos en la nube construido como prueba técnica 
 
 | | |
 |---|---|
-| Framework | React 19 |
-| Bundler / Dev server | Vite 8 |
-| Lenguaje | TypeScript 6 |
-| Estilos | Tailwind CSS 3 |
+| Framework | React  |
+| Bundler / Dev server | Vite  |
+| Lenguaje | TypeScript  |
+| Estilos | Tailwind CSS  |
 | Iconos | Lucide React |
 | Tests | Vitest + Testing Library |
 
@@ -61,10 +61,10 @@ npm run build
 - **Drag & Drop** — zona de drop global sobre el área principal con overlay animado; usa un contador de entradas para evitar el parpadeo (*flickering*) al arrastrar sobre elementos hijos
 - **Preview de imágenes** — clic en cualquier archivo de tipo imagen abre un modal de previsualización con navegación entre imágenes (botones anterior / siguiente)
 - **Ordenar por nombre, fecha y tamaño** — selector + botón de dirección (ascendente / descendente) en la barra de herramientas
-- **Paginación ("Cargar más")** — la vista lista muestra los archivos en bloques y ofrece un botón para cargar más
+- **Paginación ("Cargar más")** — tanto la vista grid como la vista lista muestran los archivos en bloques y ofrecen un botón para cargar más
 - **TypeScript estricto** — tipos propios en `src/types/file.types.ts` para `DriveFile`, `FileType`, `ViewMode`, `SortField` y `SortOrder`
 - **Tests unitarios** — suite con Vitest y Testing Library sobre las funciones de utilidad (`formatFileSize`, `formatFileDate`)
-- **Desplegado** en Vercel/Netlify (ver enlace al inicio)
+- **Desplegado** en Vercel (ver enlace al inicio)
 
 ---
 
@@ -75,7 +75,7 @@ src/
 ├── components/
 │   ├── file-manager/
 │   │   ├── FileGrid.tsx        # Vista en tarjetas
-│   │   ├── FileList.tsx        # Vista en tabla con paginación
+│   │   ├── FileList.tsx        # Vista en tabla 
 │   │   └── SortControl.tsx     # Selector de ordenación
 │   ├── layout/
 │   │   ├── DashboardLayout.tsx # Shell principal
@@ -105,7 +105,7 @@ src/
 Todo el estado de la aplicación vive en `FileContext`. La app es de página única sin comunicación entre rutas ni lógica asíncrona compleja, por lo que añadir una librería de estado global habría sido sobreingeniería. El contexto cubre perfectamente los casos de uso actuales.
 
 **Vitest en lugar de Jest**
-El proyecto usa Vite como bundler, y Vitest comparte su configuración y pipeline de transformación. Usar Jest habría requerido configuración adicional (babel, resolvers) sin ningún beneficio funcional. La API es prácticamente idéntica.
+El proyecto usa Vite como bundler, y Vitest comparte su configuración y pipeline de transformación. Usar Jest habría requerido configuración adicional sin ningún beneficio funcional. La API es prácticamente idéntica.
 
 **Contador de entradas para Drag & Drop**
 En lugar de un simple booleano para `isDragging`, se usa un `useRef` como contador que se incrementa en `dragenter` y se decrementa en `dragleave`. Esto evita que el overlay parpadee cuando el cursor pasa por encima de elementos hijos dentro de la zona de drop, que es un bug clásico de las implementaciones más simples.
@@ -123,12 +123,12 @@ Son dos dominios de estado completamente independientes. Fusionarlos en un únic
 
 ## Qué mejoraría con más tiempo
 
-- **Navegación por carpetas** — el tipo `folder` existe en el modelo de datos pero no hay enrutamiento entre carpetas; añadiría rutas con React Router y una barra de breadcrumbs
-- **Persistencia real** — los archivos se pierden al recargar; los serializaría en `localStorage` o `IndexedDB` para mayor capacidad
-- **Más cobertura de tests** — actualmente solo hay tests sobre las utilidades; añadiría tests de integración para los componentes clave (`FileGrid`, `Navbar`, flujo de upload y borrado)
-- **Accesibilidad (a11y)** — falta focus trapping en los modales, roles ARIA en el dropdown y navegación completa por teclado
-- **Virtualización de la lista** — con muchos archivos, renderizar todas las filas del DOM es ineficiente; usaría `react-virtual` o `react-window`
-- **Transiciones más pulidas** — las entradas y salidas de tarjetas al subir/borrar archivos se beneficiarían de animaciones con Framer Motion
+- **Navegación por carpetas** — ahora mismo las carpetas aparecen en la lista pero no se pueden abrir. Añadiría la posibilidad de entrar en ellas y ver su contenido, con una barra de navegación para saber dónde estás.
+- **Guardar los archivos al recargar** — si recargas la página, los archivos que has subido desaparecen. Los guardaría en el almacenamiento local del navegador para que persistan.
+- **Más tests** — solo hay tests sobre las funciones de formateo. Me gustaría añadir tests sobre los componentes principales, como el proceso de subir o eliminar un archivo.
+- **Accesibilidad** — la app no es del todo navegable con teclado. Mejoraría eso para que sea usable sin ratón.
+- **Rendimiento con muchos archivos** — si hay cientos de archivos, renderizarlos todos a la vez puede ralentizar la app. Lo optimizaría para que solo renderice los que son visibles en pantalla.
+- **Animaciones** — añadiría pequeñas animaciones cuando se sube o elimina un archivo, para que la interfaz se sienta más fluida.
 
 ---
 
