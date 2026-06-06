@@ -71,8 +71,13 @@ export const FileList = () => {
                     <div className="flex-shrink-0 mr-3">
                       {getFileIcon(file.type)}
                     </div>
-                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate max-w-[150px] sm:max-w-xs" title={file.name}>
-                      {file.name}
+                    <div className="flex flex-col min-w-0">
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate max-w-[150px] sm:max-w-xs" title={file.name}>
+                        {file.name}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 sm:hidden mt-0.5 truncate">
+                        {formatFileDate(file.createdAt)}
+                      </div>
                     </div>
                   </div>
                 </td>
