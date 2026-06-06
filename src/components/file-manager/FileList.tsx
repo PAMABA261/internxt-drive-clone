@@ -76,7 +76,7 @@ export const FileList = () => {
                         {file.name}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400 sm:hidden mt-0.5 truncate">
-                        {formatFileDate(file.createdAt)}
+                        {formatFileDate(file.createdAt)} &bull; {formatFileSize(file.size)}
                       </div>
                     </div>
                   </div>
@@ -90,7 +90,6 @@ export const FileList = () => {
                 <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button
                     onClick={(e) => {
-                      // Previene la propagación del evento hacia la fila para evitar abrir la vista previa
                       e.stopPropagation();
                       deleteFile(file.id);
                     }}
