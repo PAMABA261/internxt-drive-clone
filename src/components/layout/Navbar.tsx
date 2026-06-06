@@ -76,9 +76,9 @@ export const Navbar = ({ toggleSidebar }: NavbarProps) => {
       <div className="flex items-center space-x-2 sm:space-x-4">
         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
 
-        <button onClick={handleUploadClick} className="hidden sm:flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
-          <Upload className="w-4 h-4 mr-2" />
-          Subir archivo
+        <button onClick={handleUploadClick} className="flex items-center justify-center p-2 sm:px-4 sm:py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors" title="Subir archivo">
+          <Upload className="w-5 h-5 sm:w-4 sm:h-4 sm:mr-2" />
+          <span className="hidden sm:inline">Subir archivo</span>
         </button>
         
         <button onClick={toggleTheme} className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors" title="Cambiar tema">
