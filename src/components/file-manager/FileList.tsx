@@ -53,10 +53,10 @@ export const FileList = () => {
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-900/50">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nombre</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Fecha de subida</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tamaño</th>
-              <th scope="col" className="relative px-6 py-3"><span className="sr-only">Acciones</span></th>
+              <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nombre</th>
+              <th scope="col" className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Fecha de subida</th>
+              <th scope="col" className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tamaño</th>
+              <th scope="col" className="relative px-4 sm:px-6 py-3"><span className="sr-only">Acciones</span></th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -66,23 +66,23 @@ export const FileList = () => {
                 onClick={() => previewFile(file)}
                 className="group hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
               >
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 mr-3">
                       {getFileIcon(file.type)}
                     </div>
-                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate max-w-xs" title={file.name}>
+                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate max-w-[150px] sm:max-w-xs" title={file.name}>
                       {file.name}
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <td className="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   {formatFileDate(file.createdAt)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <td className="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   {formatFileSize(file.size)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button
                     onClick={(e) => {
                       // Previene la propagación del evento hacia la fila para evitar abrir la vista previa
