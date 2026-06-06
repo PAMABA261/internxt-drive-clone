@@ -108,7 +108,7 @@ Todo el estado de la aplicación vive en `FileContext`. La app es de página ún
 El proyecto usa Vite como bundler, y Vitest comparte su configuración y pipeline de transformación. Usar Jest habría requerido configuración adicional sin ningún beneficio funcional. La API es prácticamente idéntica.
 
 **Contador de entradas para Drag & Drop**
-En lugar de un simple booleano para `isDragging`, se usa un `useRef` como contador que se incrementa en `dragenter` y se decrementa en `dragleave`. Esto evita que el overlay parpadee cuando el cursor pasa por encima de elementos hijos dentro de la zona de drop, que es un bug clásico de las implementaciones más simples.
+En lugar de un simple booleano para `isDragging`, se usa un `useRef` como contador que se incrementa en `dragenter` y se decrementa en `dragleave`. Esto evita que el overlay parpadee cuando el cursor pasa por encima de elementos hijos dentro de la zona de drop.
 
 **`dragCounter` como `useRef` y no `useState`**
 Actualizar el contador no debe provocar un re-render por sí solo; solo importa el estado booleano `isDragging` que se deriva de él. Usar `useState` para el contador habría generado renders innecesarios en cada movimiento del ratón.
