@@ -50,9 +50,8 @@ export const FileCard = ({ file }: FileCardProps) => {
         <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate mb-1" title={file.name}>
           {file.name}
         </h3>
-        <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-          <span>{formatFileDate(file.createdAt)}</span>
-          <span>{formatFileSize(file.size)}</span>
+        <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+          {formatFileDate(file.createdAt)} &bull; {formatFileSize(file.size)}
         </div>
       </div>
     </div>
