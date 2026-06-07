@@ -2,7 +2,7 @@
 
 Simulación de un gestor de archivos en la nube construida como prueba técnica para Internxt. Todo funciona en el navegador, sin servidor ni base de datos.
 
-🔗 **[Demo en vivo](https://internxt-drive-test.vercel.app/)**
+**[Demo en vivo](https://internxt-drive-test.vercel.app/)**
 
 ---
 
@@ -129,9 +129,3 @@ Son dos dominios de estado completamente independientes. Fusionarlos en un únic
 - **Accesibilidad** — la app no es del todo navegable con teclado. Mejoraría eso para que sea usable sin ratón.
 - **Rendimiento con muchos archivos** — si hay cientos de archivos, renderizarlos todos a la vez puede ralentizar la app. Lo optimizaría para que solo renderice los que son visibles en pantalla.
 - **Animaciones** — añadiría pequeñas animaciones cuando se sube o elimina un archivo, para que la interfaz se sienta más fluida.
-
----
-
-## Autor
-
-Pablo — [github.com/PAMABA261](https://github.com/PAMABA261)
