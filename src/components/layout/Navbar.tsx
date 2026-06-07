@@ -1,4 +1,4 @@
-import { Menu, Search, Upload, User, Moon, Sun } from 'lucide-react';
+import { Menu, Search, Upload, User, Moon, Sun, X } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
 import { useFiles } from '../../context/FileContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -16,7 +16,6 @@ export const Navbar = ({ toggleSidebar }: NavbarProps) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Cierra el menú de perfil si el usuario hace clic fuera de él
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -68,8 +67,17 @@ export const Navbar = ({ toggleSidebar }: NavbarProps) => {
             placeholder="Buscar archivos..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+            className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none"
+              title="Borrar búsqueda"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
 
