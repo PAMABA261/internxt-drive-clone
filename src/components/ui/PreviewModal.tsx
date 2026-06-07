@@ -45,7 +45,7 @@ export const PreviewModal = ({ file, onClose }: PreviewModalProps) => {
           {hasPrevious && (
             <button 
               onClick={handlePrevious}
-              className="absolute left-2 sm:left-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 z-10"
+              className="absolute left-2 sm:left-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 outline-none z-10"
               title="Archivo anterior"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -67,7 +67,7 @@ export const PreviewModal = ({ file, onClose }: PreviewModalProps) => {
           {hasNext && (
             <button 
               onClick={handleNext}
-              className="absolute right-2 sm:right-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 z-10"
+              className="absolute right-2 sm:right-4 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 shadow-lg transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 outline-none z-10"
               title="Siguiente archivo"
             >
               <ChevronRight className="w-6 h-6" />
