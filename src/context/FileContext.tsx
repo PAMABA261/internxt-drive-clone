@@ -25,8 +25,8 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
   const [files, setFiles] = useState<DriveFile[]>(INITIAL_FILES);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortField>('date');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [sortBy, setSortBy] = useState<SortField>('name');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   
   const [fileToDelete, setFileToDelete] = useState<string | null>(null);
   const [fileToPreview, setFileToPreview] = useState<DriveFile | null>(null);
